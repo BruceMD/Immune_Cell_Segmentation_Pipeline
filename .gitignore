@@ -4,3 +4,6 @@
 # test images
 *.png
 *.tiff
+
+# Idea
+/.idea
