@@ -1,0 +1,6 @@
+<?xml version="1.0" ?>
+<jpackage-state version="17.0.6" platform="windows">
+  <app-version>0.4.3</app-version>
+  <main-launcher>QuPath-0.4.3</main-launcher>
+  <signed>false</signed>
+  <add-launcher>QuPath-0.4.3 (console)</add-launcher></jpackage-state>
