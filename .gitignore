@@ -1,6 +1,6 @@
 # Pycharm venv
 /venv
 
-
 # test images
 *.png
+*.tiff
