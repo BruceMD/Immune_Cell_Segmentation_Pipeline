@@ -1,10 +1,10 @@
 from HandleTIFF import orchestrate
-import InterfaceQuPath
 from test_openslide import test
+from BuildMasks import orchestrate
 
 
 def main():
-    InterfaceQuPath.annotations_demo()
+    orchestrate()
     # test()
 
 
