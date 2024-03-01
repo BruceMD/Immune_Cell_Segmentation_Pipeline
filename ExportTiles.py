@@ -3,7 +3,7 @@ from paquo.projects import QuPathProject
 from OpenSlideExportTiles import export_tiles
 
 
-def annotations_demo():
+def export_tiles():
     EXAMPLE_PROJECT = Path("C:/Users/maxbr/Documents/University/BIOL61230 - Research Project "
                            "1/QuPathImages/project.qpproj")
 
@@ -15,9 +15,6 @@ def annotations_demo():
         for image in qp.images:
             # annotations are accessible via the hierarchy
             annotations = image.hierarchy.annotations
-            print("Image", image.image_name, "has", len(annotations), "annotations.")
-            print(f'Width: {image.width}')
-            print(f'Height: {image.height}')
 
             rect_list = []
             for annotation in annotations:
@@ -29,6 +26,8 @@ def annotations_demo():
                     rect += 1
                     print("roi:", annotation.roi.bounds)
                     rect_list.append(top_left_rect(annotation.roi.bounds))
+                else:
+                    print("roi centre:", annotation.roi.centroid)
             export_tiles(image.image_name, rect_list)
     print("done")
 
