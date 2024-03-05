@@ -1,3 +1,4 @@
+from config import PROJECT_DIRECTORY
 from pathlib import Path
 from paquo.projects import QuPathProject
 from OpenSlideExportTiles import export_tiles
@@ -6,10 +7,8 @@ from PIL import Image, ImageDraw
 from shapely.affinity import translate
 
 
-
 def orchestrate():
-    EXAMPLE_PROJECT = Path("C:/Users/maxbr/Documents/University/BIOL61230 - Research Project "
-                           "1/QuPathImages/project.qpproj")
+    EXAMPLE_PROJECT = Path(PROJECT_DIRECTORY)
 
     # read the project and raise Exception if it's not there
     with QuPathProject(EXAMPLE_PROJECT, mode='r') as qp:
@@ -32,12 +31,6 @@ def orchestrate():
                             tile_anno_dict[key].append(annotation.roi)
 
             distribute_tiles(image.image_name, tile_anno_dict)
-
-            # print(f'Name: {image.image_name}')
-            # for k, cells in tile_anno_dict.items():
-            #     print(f'Tile: {k}')
-            #     for c in cells:
-            #         print(f'\tCell: {c}')
 
     print("done")
 

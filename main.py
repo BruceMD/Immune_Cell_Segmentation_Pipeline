@@ -1,11 +1,10 @@
-from HandleTIFF import orchestrate
-from test_openslide import test
-from BuildMasks import orchestrate
+import HandleTIFF
+import BuildMasks
+import OpenSlideExportTiles
 
 
 def main():
-    orchestrate()
-    # test()
+    OpenSlideExportTiles.export_tiles()
 
 
 if __name__ == '__main__':

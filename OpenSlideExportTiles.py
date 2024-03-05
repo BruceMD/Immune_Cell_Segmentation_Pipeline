@@ -1,5 +1,6 @@
 import os
-OPENSLIDE_PATH = r'C:/Users/maxbr/PycharmProjects/HistologyRP/openslide-win64-20231011/bin'
+from config import OPENSLIDE_DIRECTORY, SLIDE_PATH
+OPENSLIDE_PATH = OPENSLIDE_DIRECTORY
 if hasattr(os, 'add_dll_directory'):
     # Windows
     with os.add_dll_directory(OPENSLIDE_PATH):
@@ -9,9 +10,9 @@ else:
 
 
 def export_tiles(image_name, rect_tuple):
-    slide_path = f'C:/Users/maxbr/Documents/University/BIOL61230 - Research Project 1/Example data/{image_name}'
+    slide_path = f'{SLIDE_PATH}/{image_name}'
     # A list of tuples, each defining a region: (start_x, start_y, width, height)
-    output_dir = 'C:/Users/maxbr/PycharmProjects/HistologyRP/data'
+    output_dir = 'data/'
     level = 0  # Level for extraction (0 for highest resolution)
 
     # --- Load Slide ---

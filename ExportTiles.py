@@ -1,11 +1,11 @@
+from config import PROJECT_DIRECTORY
 from pathlib import Path
 from paquo.projects import QuPathProject
 from OpenSlideExportTiles import export_tiles
 
 
 def export_tiles():
-    EXAMPLE_PROJECT = Path("C:/Users/maxbr/Documents/University/BIOL61230 - Research Project "
-                           "1/QuPathImages/project.qpproj")
+    EXAMPLE_PROJECT = Path(PROJECT_DIRECTORY)
 
     rect, neut = 0, 0
 
