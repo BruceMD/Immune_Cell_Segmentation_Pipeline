@@ -2,10 +2,6 @@ from pathlib import Path
 from paquo.projects import QuPathProject
 from OpenSlideExportTiles import export_tiles
 
-import rasterio
-from rasterio.plot import show
-from shapely.geometry import Polygon, mapping
-import numpy as np
 from PIL import Image, ImageDraw
 from shapely.affinity import translate
 

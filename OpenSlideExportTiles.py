@@ -22,7 +22,7 @@ def export_tiles(image_name, rect_tuple):
     for i, (x, y, w, h) in enumerate(rect_tuple):
         print(f'x: {x} and y: {y}')     # todo, double check on these values
         tile = slide.read_region((x, y), level, (w, h))
-        tile.convert('RGB').save(os.path.join(output_dir, f"{image_name}_tile_{i}_{x}_{y}.tiff"), format='TIFF')  # Customize format if needed
+        tile.convert('RGB').save(os.path.join(output_dir, f"{image_name}_tile_{i}_{x}_{y}.tiff"), format='TIFF')
 
     # --- (Optional)  Explore Properties ---
     print(slide.properties)  # View image metadata
