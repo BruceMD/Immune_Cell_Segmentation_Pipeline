@@ -1,10 +1,17 @@
 from config import PROJECT_DIRECTORY
 from pathlib import Path
 from paquo.projects import QuPathProject
-from OpenSlideExportTiles import export_tiles
 
 from PIL import Image, ImageDraw
 from shapely.affinity import translate
+
+import os
+from config import OPENSLIDE_DIRECTORY, SLIDE_PATH
+if hasattr(os, 'add_dll_directory'):
+    with os.add_dll_directory(OPENSLIDE_DIRECTORY):
+        import openslide
+else:
+    import openslide
 
 
 def orchestrate():
@@ -16,10 +23,10 @@ def orchestrate():
         4. Iterate through annotations again - add marked cells to value list if co-ords in tile
         5. Pass image name and dictionary to distribute_tiles
     """
-    EXAMPLE_PROJECT = Path(PROJECT_DIRECTORY)
+    PROJECT = Path(PROJECT_DIRECTORY)
 
     # read the project and raise Exception if it's not there
-    with QuPathProject(EXAMPLE_PROJECT, mode='r') as qp:
+    with QuPathProject(PROJECT, mode='r') as qp:
         # iterate over the images
         for image in qp.images:
             # annotations are accessible via the hierarchy
@@ -62,13 +69,16 @@ def anno_in_tile(centroid, bounds):
 def distribute_tiles(image_name, tile_anno_dict):
     """
     Iterate through dictionary (tile and containing cell annotations)
-    Pass to build_masks function and keeping track of the number
+    Pass tile and cell annotations to build_masks function and keeping track of the number
+    Pass tile to build_tile to output the 512X512 input image
+
     :param image_name: str
     :param tile_anno_dict: dic containing tile (key) and cell annotations (value)
     """
     index = 0
     for tile, cells in tile_anno_dict.items():
         build_mask(image_name, index, tile, cells)
+        build_tile(image_name, index, tile)
         index += 1
 
 
@@ -89,7 +99,7 @@ def build_mask(image_name, tile_no, tile, cell_list):
     output_name = image_name.replace('.mrxs', '')
 
     top_x, top_y = tile.bounds[0], tile.bounds[1]
-    print(f'Top: {top_x}-{top_y}')
+    # print(f'Top: {top_x}-{top_y}')
 
     image = Image.new('RGB', (512, 512), 'black')
     draw = ImageDraw.Draw(image)
@@ -114,4 +124,30 @@ def build_mask(image_name, tile_no, tile, cell_list):
             # Draw the polygon
             draw.polygon(exterior_coords_int, fill='white', outline='white')
 
-    image.save(f'data_masks/{output_name}_T{tile_no}.tiff')
+    image.save(f'data_masks/{output_name}_Mask_{tile_no}.tiff')
+
+
+def build_tile(image_name, index, tile):
+    """
+    Build a tile
+    :param image_name:
+    :param index:
+    :param tile:
+    :return:
+    """
+    slide_path = f'{SLIDE_PATH}/{image_name}'
+    output_name = image_name.replace('.mrxs', '')
+    output_dir = 'data/'
+    level = 0  # Level for extraction (0 for highest resolution)
+
+    # --- Load Slide ---
+    slide = openslide.OpenSlide(slide_path)
+    print('Dimensions OS', slide.dimensions)
+    print('Tile  ', tile)
+    print('Bounds', tile.bounds)
+    x = int(tile.bounds[0])
+    y = int(tile.bounds[1])
+
+    print(f'x: {x} and y: {y}')
+    tile = slide.read_region((x, y), level, (512, 512))
+    tile.convert('RGB').save(os.path.join(output_dir, f"{output_name}_Tile_{index}_({x},{y}).tiff"), format='TIFF')
