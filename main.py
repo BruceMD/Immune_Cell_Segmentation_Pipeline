@@ -1,5 +1,5 @@
-import HandleTIFF
-import BuildMasks
+# import HandleTIFF
+# import BuildMasks
 import OpenSlideExportTiles
 
 
