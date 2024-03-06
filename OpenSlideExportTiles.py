@@ -1,9 +1,7 @@
 import os
 from config import OPENSLIDE_DIRECTORY, SLIDE_PATH
-OPENSLIDE_PATH = OPENSLIDE_DIRECTORY
 if hasattr(os, 'add_dll_directory'):
-    # Windows
-    with os.add_dll_directory(OPENSLIDE_PATH):
+    with os.add_dll_directory(OPENSLIDE_DIRECTORY):
         import openslide
 else:
     import openslide
