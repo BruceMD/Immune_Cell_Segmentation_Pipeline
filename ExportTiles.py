@@ -1,7 +1,7 @@
 from config import PROJECT_DIRECTORY
 from pathlib import Path
 from paquo.projects import QuPathProject
-from OpenSlideExportTiles import export_tiles
+import OpenSlideExportTiles
 
 
 def export_tiles():
@@ -28,7 +28,7 @@ def export_tiles():
                     rect_list.append(top_left_rect(annotation.roi.bounds))
                 else:
                     print("roi centre:", annotation.roi.centroid)
-            export_tiles(image.image_name, rect_list)
+            OpenSlideExportTiles.export_tiles(image.image_name, rect_list)
     print("done")
 
 
