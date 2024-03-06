@@ -7,3 +7,6 @@
 
 # Idea
 /.idea
+
+# PaQuo Config toml file
+*.toml
