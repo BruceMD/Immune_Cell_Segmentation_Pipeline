@@ -1,10 +1,8 @@
-# import HandleTIFF
-# import BuildMasks
-import OpenSlideExportTiles
+import BuildMasks
 
 
 def main():
-    OpenSlideExportTiles.export_tiles()
+    BuildMasks.orchestrate()
 
 
 if __name__ == '__main__':
