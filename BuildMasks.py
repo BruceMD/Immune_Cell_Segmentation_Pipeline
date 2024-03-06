@@ -8,6 +8,14 @@ from shapely.affinity import translate
 
 
 def orchestrate():
+    """
+    Facilitate workflow:
+        1. Open QuPath project
+        2. Iterate through images loaded in project
+        3. Iterate through annotations in images - add 512X512 tiles as keys to dic
+        4. Iterate through annotations again - add marked cells to value list if co-ords in tile
+        5. Pass image name and dictionary to distribute_tiles
+    """
     EXAMPLE_PROJECT = Path(PROJECT_DIRECTORY)
 
     # read the project and raise Exception if it's not there
@@ -36,6 +44,12 @@ def orchestrate():
 
 
 def anno_in_tile(centroid, bounds):
+    """
+    Return true if centroid of cell annotation is within the bounds of 512X512 tile
+    :param centroid: Co-ords of centre of cell annotation
+    :param bounds: Bounds of 512X512 tile
+    :return: boolean
+    """
 
     centroid_x, centroid_y = centroid.coords[0]
 
@@ -46,6 +60,12 @@ def anno_in_tile(centroid, bounds):
 
 
 def distribute_tiles(image_name, tile_anno_dict):
+    """
+    Iterate through dictionary (tile and containing cell annotations)
+    Pass to build_masks function and keeping track of the number
+    :param image_name: str
+    :param tile_anno_dict: dic containing tile (key) and cell annotations (value)
+    """
     index = 0
     for tile, cells in tile_anno_dict.items():
         build_mask(image_name, index, tile, cells)
@@ -53,6 +73,18 @@ def distribute_tiles(image_name, tile_anno_dict):
 
 
 def build_mask(image_name, tile_no, tile, cell_list):
+    """
+    Build mask/segmentation image
+        Shift all values to treat top left corner as (0, 0)
+        Draw black 512X512 tile
+        Iterate through cell annotations and draw and fill white polygons onto black tile
+        Export tiff images to data_masks directory
+
+    :param image_name: Name from file associated to annotations
+    :param tile_no: Keeping track of numbers of tiles for labelling purposes
+    :param tile: Tuple of bounds of tile
+    :param cell_list: List of cell annotations
+    """
 
     output_name = image_name.replace('.mrxs', '')
 
