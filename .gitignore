@@ -10,3 +10,4 @@
 
 # PaQuo Config toml file
 *.toml
+config/.paquo.toml
