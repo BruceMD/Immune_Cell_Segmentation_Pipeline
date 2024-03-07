@@ -1,7 +1,7 @@
 # current paquo configuration
 # ===========================
 # format: TOML
-qupath_dir = "C:/Users/maxbr/PycharmProjects/HistologyRP/qupath/QuPath-0.4.3"
+qupath_dir = "C:/Users/c92568bd/Documents/Immune_Cell_Segementation_Pipeline/qupath/QuPath-0.4.3"
 qupath_search_dirs = [
     "/opt",
     "/Applications",
