@@ -20,3 +20,29 @@
 * OpenSlide-python (1.3.1)
 * Shapely (2.0.3)
 * Pillow (10.2.0)
+
+## Setup
+
+1. Run a git clone on the Immune Cell Segmentation Pipeline repo
+   * ```git clone https://github.com/BruceMD/Immune_Cell_Segmentation_Pipeline.git```
+
+2. Run `pip install -r requirements.txt` to download all the necessary libraries for this project.
+
+3. Download the [OpenSlide](https://github.com/openslide/openslide-bin/releases/download/v20231011/openslide-win64-20231011.zip) zip folder, and extract it 
+(I have extracted it to the project directory for simplification).
+    * In the `config.py` folder, copy the `openslide-wind64-20231011/bin` directory to the `OPENSLIDE_DIRECTORY` variable.
+
+4. From the terminal, run `paquo get_qupath --install-path ./qupath 0.4.3`
+and update the config/.paquo.toml variable `qupath_dir` to the `$HOME/qupath/QuPath-0.4.3`.
+   * Ensure [QuPath](https://qupath.github.io/) has been installed on your computer
+
+5. Update the `config.py` variables:
+    * PROJECT_DIRECTORY
+      * Directory where the QuPath project is saved
+    * OPENSLIDE_DIRECTORY
+      * Directory where openslide has been extracted (step 3) 
+    * SLIDE_PATH
+      * Directory where mrxs images are stored
+    * QUPATH_ROTATED
+      * `True` if images were imported to QuPath with rotation (thus resetting the coordinates)
+      * Other wise `False`
