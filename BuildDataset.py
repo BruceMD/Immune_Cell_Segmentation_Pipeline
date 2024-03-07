@@ -47,13 +47,6 @@ def orchestrate():
 
             distribute_tiles(image.image_name, tile_anno_dict)
 
-            # slide_path = f'{SLIDE_PATH}/{image.image_name}'
-            # slide = openslide.OpenSlide(slide_path)
-            # for j in range(0, slide.dimensions[1], 2048):
-            #     for i in range(0, slide.dimensions[0], 2048):
-            #         grr = slide.read_region((i, j), 0, (2048, 2048))
-            #         grr.convert('RGB').save(f"blegh/{image.image_name.replace('.mrxs', '')}_Tile_({i},{j}).tiff", format='TIFF')
-
     print("done")
 
 
