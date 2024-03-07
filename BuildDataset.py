@@ -6,7 +6,7 @@ from PIL import Image, ImageDraw
 from shapely.affinity import translate
 
 import os
-from config import OPENSLIDE_DIRECTORY, SLIDE_PATH
+from config import OPENSLIDE_DIRECTORY, SLIDE_PATH, QUPATH_ROTATED
 if hasattr(os, 'add_dll_directory'):
     with os.add_dll_directory(OPENSLIDE_DIRECTORY):
         import openslide
@@ -151,22 +151,26 @@ def build_tile(image_name, index, tile):
     slide = openslide.OpenSlide(slide_path)
 
     x, y = int(tile.bounds[0]), int(tile.bounds[1])
-    x_new, y_new = rotate_coords(x, y, slide.dimensions)
+    x_new, y_new = rotate_coords(x, y, slide.dimensions, QUPATH_ROTATED)
 
-    tile = slide.read_region((x_new, y_new), level, (512, 512)).rotate(180)
+    tile = slide.read_region((x_new, y_new), level, (512, 512))
+    if QUPATH_ROTATED:
+        tile = tile.rotate(180)
     tile.convert('RGB').save(os.path.join(output_dir, f"{output_name}_Tile_{index}_({x},{y}).tiff"), format='TIFF')
 
 
-def rotate_coords(x, y, dimensions):
+def rotate_coords(x, y, dimensions, rotate=True):
     """
     Trial and error to rotate the image as I imported images into QuPath with a 180 rotation, and now undoing it...
 
+    :param rotate:
     :param x:
     :param y:
     :param dimensions:
     :return:
     """
-    new_x = dimensions[0] - x - 513
-    new_y = dimensions[1] - y - 513
-
-    return new_x, new_y
+    if rotate:
+        new_x = dimensions[0] - x - 513
+        new_y = dimensions[1] - y - 513
+        return new_x, new_y
+    return x, y
