@@ -1,11 +1,15 @@
+from config import PROJECT_DIRECTORY
 from pathlib import Path
 from paquo.projects import QuPathProject
-from OpenSlideExportTiles import export_tiles
+import OpenSlideExportTiles
+
+"""
+Truncated whereby functionality is covered by BuildDataset that exports tile images and mask images in one go.
+"""
 
 
 def export_tiles():
-    EXAMPLE_PROJECT = Path("C:/Users/maxbr/Documents/University/BIOL61230 - Research Project "
-                           "1/QuPathImages/project.qpproj")
+    EXAMPLE_PROJECT = Path(PROJECT_DIRECTORY)
 
     rect, neut = 0, 0
 
@@ -28,7 +32,7 @@ def export_tiles():
                     rect_list.append(top_left_rect(annotation.roi.bounds))
                 else:
                     print("roi centre:", annotation.roi.centroid)
-            export_tiles(image.image_name, rect_list)
+            OpenSlideExportTiles.export_tiles(image.image_name, rect_list)
     print("done")
 
 

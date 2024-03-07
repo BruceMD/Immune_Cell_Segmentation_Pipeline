@@ -1,11 +1,9 @@
-from HandleTIFF import orchestrate
-from test_openslide import test
-from BuildMasks import orchestrate
+import BuildDataset
+import ExportTiles
 
 
 def main():
-    orchestrate()
-    # test()
+    BuildDataset.orchestrate()
 
 
 if __name__ == '__main__':
