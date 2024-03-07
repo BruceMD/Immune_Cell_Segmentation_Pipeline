@@ -6,6 +6,10 @@ if hasattr(os, 'add_dll_directory'):
 else:
     import openslide
 
+"""
+Truncated whereby functionality is covered by BuildDataset that exports tile images and mask images in one go.
+"""
+
 
 def export_tiles(image_name, rect_tuple):
     slide_path = f'{SLIDE_PATH}/{image_name}'

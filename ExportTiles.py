@@ -3,6 +3,10 @@ from pathlib import Path
 from paquo.projects import QuPathProject
 import OpenSlideExportTiles
 
+"""
+Truncated whereby functionality is covered by BuildDataset that exports tile images and mask images in one go.
+"""
+
 
 def export_tiles():
     EXAMPLE_PROJECT = Path(PROJECT_DIRECTORY)
