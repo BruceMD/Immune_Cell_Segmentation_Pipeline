@@ -101,7 +101,7 @@ def build_mask(image_name, tile_no, tile, cell_list):
     top_x, top_y = tile.bounds[0], tile.bounds[1]
     # print(f'Top: {top_x}-{top_y}')
 
-    image = Image.new('RGB', (512, 512), 'black')
+    image = Image.new('L', (512, 512), 0)
     draw = ImageDraw.Draw(image)
 
     for cell in cell_list:
@@ -115,16 +115,17 @@ def build_mask(image_name, tile_no, tile, cell_list):
                 # Convert exterior coordinates to integer tuples
                 exterior_coords_int = [(int(x), int(y)) for x, y in exterior_coords]
                 # Draw the polygon
-                draw.polygon(exterior_coords_int, fill='white', outline='white')
+                draw.polygon(exterior_coords_int, fill=1, outline=1)
         else:
             # Extract the exterior coordinates of the translated polygon
             exterior_coords = list(trans_cell.exterior.coords)
             # Convert exterior coordinates to integer tuples
             exterior_coords_int = [(int(x), int(y)) for x, y in exterior_coords]
             # Draw the polygon
-            draw.polygon(exterior_coords_int, fill='white', outline='white')
+            draw.polygon(exterior_coords_int, fill=1, outline=1)
 
-    image.save(f'data_masks/{output_name}_Mask_{tile_no}_({top_x},{top_y}).tiff')
+    # image.save(f'data_masks/{output_name}_{tile_no}_({top_x},{top_y})_mask.tiff')
+    image.save(f'data_masks/{output_name}_{tile_no}.tiff')
 
 
 def build_tile(image_name, index, tile):
@@ -137,7 +138,6 @@ def build_tile(image_name, index, tile):
     """
     slide_path = f'{SLIDE_PATH}/{image_name}'
     output_name = image_name.replace('.mrxs', '')
-    output_dir = 'data/'
     level = 0  # Level for extraction (0 for highest resolution)
 
     # --- Load Slide ---
@@ -149,7 +149,8 @@ def build_tile(image_name, index, tile):
     tile = slide.read_region((x_new, y_new), level, (512, 512))
     if QUPATH_ROTATED:
         tile = tile.rotate(180)
-    tile.convert('RGB').save(os.path.join(output_dir, f"{output_name}_Tile_{index}_({x},{y}).tiff"), format='TIFF')
+    # tile.convert('RGB').save(f"data/{output_name}_{index}_({x},{y})_tile.tiff", format='TIFF')
+    tile.convert('RGB').save(f"data/{output_name}_{index}.tiff", format='TIFF')
 
 
 def rotate_coords(x, y, dimensions, rotate=True):
