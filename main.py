@@ -1,8 +1,10 @@
 import BuildDataset
+import AugmentImages
 
 
 def main():
-    BuildDataset.orchestrate()
+    # BuildDataset.orchestrate()
+    AugmentImages.orchestrate()
 
 
 if __name__ == '__main__':
