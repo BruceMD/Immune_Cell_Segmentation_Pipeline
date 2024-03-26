@@ -3,14 +3,16 @@ import cv2
 from pathlib import Path
 import numpy as np
 
+from config import DATA_OUTPUT_PATH, MASK_OUTPUT_PATH
+
 
 def orchestrate():
     augment_images()
 
 
 def augment_images():
-    input_data_path = Path('data/')
-    mask_data_path = Path('data_masks/')
+    input_data_path = Path(DATA_OUTPUT_PATH)
+    mask_data_path = Path(MASK_OUTPUT_PATH)
 
     input_images = list(input_data_path.glob('*.tiff'))
     mask_images = list(mask_data_path.glob('*.tiff'))
@@ -35,8 +37,9 @@ def augment_images():
 
         # Check if a transformation was applied
         if not np.array_equal(input_image, aug_image) or not np.array_equal(mask_image, aug_mask):
-            cv2.imwrite(f'data_trans/{image.stem}_trans.tiff', aug_image)
-            cv2.imwrite(f'data_masks_trans/{mask.stem}_trans.tiff', aug_mask)
+            cv2.imwrite(f'data/data_trans/{image.stem}_trans.tiff', aug_image)
+            cv2.imwrite(f'data/data_masks_trans/{mask.stem}_trans.tiff', aug_mask)
+
 
 if __name__ == '__main__':
     orchestrate()
