@@ -37,3 +37,6 @@ def augment_images():
         if not np.array_equal(input_image, aug_image) or not np.array_equal(mask_image, aug_mask):
             cv2.imwrite(f'data_trans/{image.stem}_trans.tiff', aug_image)
             cv2.imwrite(f'data_masks_trans/{mask.stem}_trans.tiff', aug_mask)
+
+if __name__ == '__main__':
+    orchestrate()
