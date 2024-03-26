@@ -4,4 +4,6 @@ SLIDE_PATH = "D:/Bruce_Data/02_human_bd/01_mrxs"
 QUPATH_ROTATED = True
 
 DATA_OUTPUT_PATH = "data/data"
-MASKS_OUTPUT_PATH = "data/data_masks"
+MASK_OUTPUT_PATH = "data/data_masks"
+
+FOREGROUND_PIXEL_VALUE = 255
