@@ -1,4 +1,4 @@
-from config import PROJECT_DIRECTORY
+from config import PROJECT_DIRECTORY, DATA_OUTPUT_PATH, MASK_OUTPUT_PATH, FOREGROUND_PIXEL_VALUE
 from pathlib import Path
 from paquo.projects import QuPathProject
 
@@ -99,7 +99,6 @@ def build_mask(image_name, tile_no, tile, cell_list):
     output_name = image_name.replace('.mrxs', '')
 
     top_x, top_y = tile.bounds[0], tile.bounds[1]
-    # print(f'Top: {top_x}-{top_y}')
 
     image = Image.new('L', (512, 512), 0)
     draw = ImageDraw.Draw(image)
@@ -115,17 +114,17 @@ def build_mask(image_name, tile_no, tile, cell_list):
                 # Convert exterior coordinates to integer tuples
                 exterior_coords_int = [(int(x), int(y)) for x, y in exterior_coords]
                 # Draw the polygon
-                draw.polygon(exterior_coords_int, fill=1, outline=1)
+                draw.polygon(exterior_coords_int, fill=FOREGROUND_PIXEL_VALUE, outline=FOREGROUND_PIXEL_VALUE)
         else:
             # Extract the exterior coordinates of the translated polygon
             exterior_coords = list(trans_cell.exterior.coords)
             # Convert exterior coordinates to integer tuples
             exterior_coords_int = [(int(x), int(y)) for x, y in exterior_coords]
             # Draw the polygon
-            draw.polygon(exterior_coords_int, fill=1, outline=1)
+            draw.polygon(exterior_coords_int, fill=FOREGROUND_PIXEL_VALUE, outline=FOREGROUND_PIXEL_VALUE)
 
     # image.save(f'data_masks/{output_name}_{tile_no}_({top_x},{top_y})_mask.tiff')
-    image.save(f'data_masks/{output_name}_{tile_no}.tiff')
+    image.save(f'{MASK_OUTPUT_PATH}/{output_name}_{tile_no}.tiff')
 
 
 def build_tile(image_name, index, tile):
@@ -150,7 +149,7 @@ def build_tile(image_name, index, tile):
     if QUPATH_ROTATED:
         tile = tile.rotate(180)
     # tile.convert('RGB').save(f"data/{output_name}_{index}_({x},{y})_tile.tiff", format='TIFF')
-    tile.convert('RGB').save(f"data/{output_name}_{index}.tiff", format='TIFF')
+    tile.convert('RGB').save(f"{DATA_OUTPUT_PATH}/{output_name}_{index}.tiff", format='TIFF')
 
 
 def rotate_coords(x, y, dimensions, rotate=True):
